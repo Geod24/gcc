@@ -140,6 +140,15 @@ case ${host} in
 esac
 AC_MSG_RESULT($LIBPHOBOS_SUPPORTED)
 
+AC_MSG_CHECKING([if target needs to link in swapcontext])
+AC_MSG_RESULT($LIBDRUNTIME_NEEDS_UCONTEXT)
+AS_IF([test "x$LIBDRUNTIME_NEEDS_UCONTEXT" = xyes], [
+  AC_SEARCH_LIBS([swapcontext], [c ucontext], [], [
+	AC_MSG_ERROR([[can't find library providing swapcontext]])
+  ])
+])
+
+
 # Decide if it's usable.
 case $LIBPHOBOS_SUPPORTED:$enable_libphobos in
 *:no)  use_libphobos=no  ;;
